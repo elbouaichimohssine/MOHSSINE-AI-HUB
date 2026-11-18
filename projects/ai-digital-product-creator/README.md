@@ -19,6 +19,7 @@
 - [Existing-work audit](existing-work-audit.md)
 - [60-page content map](content-map.md)
 - [Production checklist](production-checklist.md)
+- [Corrected Page 3 draft — Everyday Actions](corrected-page-03-everyday-actions.md)
 
 ## Existing-work audit — initial findings
 
@@ -28,7 +29,7 @@ Two prior PDF exports are available in the Library:
 
 The 11-page version already covers alphabet, everyday actions, body parts, school objects, family, animals, colours and shapes, numbers, fruits and vegetables, and food and drinks. It is therefore a real starting point, not a blank project.
 
-The next step is to review and correct the existing edition before expanding it. Specific issues identified in the extracted text are recorded in [existing-work-audit.md](existing-work-audit.md). The current files do not establish that the proposed 60-page edition is complete.
+A corrected, ready-to-rebuild draft for the Everyday Actions page has now been added. The next step is to implement it in Canva, then continue auditing the remaining pages before expanding the workbook. Specific issues identified in the extracted text are recorded in [existing-work-audit.md](existing-work-audit.md). The current files do not establish that the proposed 60-page edition is complete.
 
 ## Workflow
 
