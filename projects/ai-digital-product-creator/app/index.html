@@ -54,7 +54,7 @@
     <div class="panel">
       <h2>02 / Your product plan</h2><p class="sub">Your draft appears here. Review it before using it in production.</p>
       <div id="preview" class="preview"><div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div></div>
-      <div class="actions"><button id="copyBtn" class="btn secondary" type="button" disabled>Copy plan</button><button id="downloadBtn" class="btn secondary" type="button" disabled>Download .txt</button></div>
+      <div class="actions"><button id="copyBtn" class="btn secondary" type="button" disabled>Copy plan</button><button id="downloadBtn" class="btn secondary" type="button" disabled>Download .txt</button><button id="pdfBtn" class="btn primary" type="button" disabled>Export A4 PDF ↗</button></div>
       <div id="status" class="status" role="status" aria-live="polite"></div>
     </div>
   </section>
@@ -67,6 +67,8 @@
   const downloadBtn=document.getElementById('downloadBtn');
   const status=document.getElementById('status');
   let currentPlan='';
+  let currentPlanIsDetailed=false;
+  const pdfBtn=document.getElementById('pdfBtn');
   function makeWorkbook(){
     const v=id=>document.getElementById(id).value.trim();
     const title=v('title'), language=v('language'), audience=v('audience');
@@ -294,24 +296,71 @@
     e.preventDefault();
     if(!form.reportValidity()) return;
     currentPlan=makePlan();
+    currentPlanIsDetailed=false;
     preview.textContent=currentPlan;
-    copyBtn.disabled=false;downloadBtn.disabled=false;
+    copyBtn.disabled=false;downloadBtn.disabled=false;pdfBtn.disabled=true;
     status.textContent='Plan generated. Review the draft before production.';
   });
   document.getElementById('workbookBtn').addEventListener('click',()=>{
     if(!form.reportValidity()) return;
     currentPlan=makeWorkbook();
+    currentPlanIsDetailed=false;
     preview.textContent=currentPlan;
-    copyBtn.disabled=false;downloadBtn.disabled=false;
+    copyBtn.disabled=false;downloadBtn.disabled=false;pdfBtn.disabled=true;
     status.textContent='Page-by-page workbook outline generated. Review it before writing the lessons.';
   });
   document.getElementById('detailedBtn').addEventListener('click',()=>{
     if(!form.reportValidity()) return;
     currentPlan=makeDetailedWorkbook();
+    currentPlanIsDetailed=true;
     preview.textContent=currentPlan;
-    copyBtn.disabled=false;downloadBtn.disabled=false;
+    copyBtn.disabled=false;downloadBtn.disabled=false;pdfBtn.disabled=false;
     status.textContent='Full page content and answer key generated. Review and proofread before design.';
   });
+
+  function escapeHtml(value){
+    return value.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function exportA4Pdf(){
+    if(!currentPlan || !currentPlanIsDetailed){
+      status.textContent='Generate full page content + answers first.';
+      return;
+    }
+    const lines=currentPlan.split(/\\r?\\n/);
+    const pageStarts=[];
+    let answerStart=lines.findIndex(line=>line.trim()==='TEACHER / PARENT ANSWER KEY');
+    let editorialStart=lines.findIndex(line=>line.trim()==='EDITORIAL CHECK BEFORE DESIGN');
+    lines.forEach((line,index)=>{if(/^PAGE \\d+ \\|/.test(line))pageStarts.push(index);});
+    const meta=lines.slice(0,pageStarts[0]||0).filter(line=>line.trim() && !/^=+$/.test(line));
+    const titleLine=meta.find(line=>line.startsWith('Product:'))||'Product: Learning Workbook';
+    const title=titleLine.replace(/^Product:\\s*/,'');
+    const pageEnd=answerStart>0?answerStart:(editorialStart>0?editorialStart:lines.length);
+    const sections=[];
+    for(let i=0;i<pageStarts.length;i++){
+      const start=pageStarts[i],end=i+1<pageStarts.length?pageStarts[i+1]:pageEnd;
+      const chunk=lines.slice(start,end).filter((line,index)=>index!==0 || line.trim());
+      const pageLabel=lines[start].split('|')[0].trim();
+      sections.push({label:pageLabel,content:chunk.join('\\n').trim()});
+    }
+    if(answerStart>0){
+      const end=editorialStart>answerStart?editorialStart:lines.length;
+      const answerText=lines.slice(answerStart+2,end).join('\\n').trim();
+      const answerItems=answerText.split(/(?=Page \\d+ — )/).map(x=>x.trim()).filter(Boolean);
+      answerItems.forEach((item,index)=>sections.push({label:'ANSWER KEY '+(index+1),content:item}));
+    }
+    if(editorialStart>0){
+      sections.push({label:'EDITORIAL CHECK',content:lines.slice(editorialStart).join('\\n').trim()});
+    }
+    const pagesHtml=sections.map((section,index)=>'<section class="page"><div class="page-top"><span>MOHSSINE AI HUB</span><span>'+escapeHtml(section.label)+'</span></div><h1>'+escapeHtml(title)+'</h1><pre>'+escapeHtml(section.content)+'</pre><div class="page-footer"><span>Learning Workbook</span><span>'+(index+1)+' / '+sections.length+'</span></div></section>').join('');
+    const popup=window.open('','_blank');
+    if(!popup){status.textContent='Allow pop-ups for this site, then try Export A4 PDF again.';return;}
+    popup.document.open();
+    popup.document.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapeHtml(title)+' - A4 PDF</title><style>@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#e8edf5;color:#172033;font:11pt/1.5 Arial,sans-serif}.page{width:210mm;min-height:297mm;padding:17mm 18mm 20mm;margin:10mm auto;background:#fff;position:relative;page-break-after:always;break-after:page}.page:last-child{page-break-after:auto;break-after:auto}.page-top{display:flex;justify-content:space-between;gap:10mm;border-bottom:2px solid #2563eb;padding-bottom:5mm;color:#2563eb;font-size:9pt;font-weight:bold;letter-spacing:.5px}.page h1{font-size:19pt;color:#102b5c;margin:9mm 0 6mm;line-height:1.2}.page pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11pt/1.6 Arial,sans-serif;margin:0}.page-footer{position:absolute;bottom:9mm;left:18mm;right:18mm;border-top:1px solid #dbe4f0;padding-top:3mm;display:flex;justify-content:space-between;color:#64748b;font-size:8pt}@media print{body{background:#fff}.page{margin:0;box-shadow:none}}@media screen{.page{box-shadow:0 3px 18px #102b5c18}}</style></head><body>'+pagesHtml+'<script>window.onload=()=>setTimeout(()=>window.print(),350);<\\/script></body></html>');
+    popup.document.close();
+    status.textContent='A4 print view opened. Choose “Save as PDF” and paper size A4.';
+  }
+  pdfBtn.addEventListener('click',exportA4Pdf);
+
   copyBtn.addEventListener('click',async()=>{
     if(!currentPlan)return;
     try{await navigator.clipboard.writeText(currentPlan);status.textContent='Plan copied to clipboard.'}
@@ -324,7 +373,7 @@
     a.href=url;a.download='workbook-content-and-answer-key.txt';a.click();URL.revokeObjectURL(url);
     status.textContent='Your text file has been prepared.';
   });
-  form.addEventListener('reset',()=>{currentPlan='';preview.innerHTML='<div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div>';copyBtn.disabled=true;downloadBtn.disabled=true;status.textContent=''});
+  form.addEventListener('reset',()=>{currentPlan='';currentPlanIsDetailed=false;pdfBtn.disabled=true;preview.innerHTML='<div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div>';copyBtn.disabled=true;downloadBtn.disabled=true;status.textContent=''});
 </script>
 </body>
 </html>
