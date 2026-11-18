@@ -46,8 +46,9 @@
         </div>
         <div class="field"><label for="level">Learning level / complexity</label><select id="level"><option value="mixed">Two levels: ages 6–7 and 8–10</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></div>
         <div class="field"><label for="goal">Main learning or customer outcome</label><textarea id="goal" rows="3">Help children practise vocabulary, spelling, basic grammar, reading and writing through fun activities.</textarea></div>
+        <div class="field"><label for="topics">Workbook topics (separate with commas)</label><textarea id="topics" rows="2">Alphabet, animals, colours, numbers, family, school objects, food, everyday actions</textarea><div class="hint">Add the themes you want to teach. You can edit this list anytime.</div></div>
         <div class="field"><label for="style">Design direction</label><input id="style" value="Clean white pages, soft pastel accents, friendly original cartoon animals"></div>
-        <div class="actions"><button class="btn primary" type="submit">Generate product plan ↗</button><button class="btn secondary" type="reset">Reset form</button></div>
+        <div class="actions"><button class="btn primary" type="submit">Generate product plan ↗</button><button class="btn secondary" id="workbookBtn" type="button">Build page-by-page workbook ↗</button><button class="btn secondary" type="reset">Reset form</button></div>
       </form>
     </div>
     <div class="panel">
@@ -66,6 +67,78 @@
   const downloadBtn=document.getElementById('downloadBtn');
   const status=document.getElementById('status');
   let currentPlan='';
+  function makeWorkbook(){
+    const v=id=>document.getElementById(id).value.trim();
+    const title=v('title'), language=v('language'), audience=v('audience');
+    const total=Math.max(10,parseInt(v('pages'),10)||60);
+    const rawTopics=v('topics').split(',').map(x=>x.trim()).filter(Boolean);
+    const topics=rawTopics.length?rawTopics:['Vocabulary','Everyday English','Reading'];
+    const mixed=v('level')==='mixed';
+    const pages=[];
+    const add=(section,task,objective)=>pages.push({section,task,objective});
+    add('Front matter','Cover: '+title,'Show the title, age range and a clear learning promise.');
+    if(pages.length<total)add('Front matter','Welcome and how to use this workbook','Explain the activity icons and how an adult can support the learner.');
+    if(pages.length<total)add('Front matter','My learning progress tracker','Let learners mark completed units.');
+    if(pages.length<total)add('Front matter','Learning goals and level guide','Show the skills learners will practise.');
+    let t=0;
+    while(pages.length<Math.floor(total*.68)){
+      const topic=topics[t%topics.length];
+      const activities=[
+        ['Picture vocabulary','Introduce 6–8 useful words with clear illustrations.'],
+        ['Trace and write','Practise spelling and letter formation.'],
+        ['Match words and pictures','Connect each word to the correct image.'],
+        ['Choose the correct word','Check recognition and meaning.'],
+        ['Use it in a sentence','Build a short sentence using the new vocabulary.']
+      ];
+      for(const [name,objective] of activities){
+        if(pages.length>=Math.floor(total*.68))break;
+        add('Vocabulary unit: '+topic,name,objective);
+      }
+      t++;
+    }
+    const grammar=[
+      ['Grammar in context: nouns','Identify naming words in simple examples.'],
+      ['Grammar in context: a / an','Choose the correct article before a word.'],
+      ['Singular and plural','Recognise and practise simple plural forms.'],
+      ['Basic verbs','Match actions to verbs and complete short sentences.'],
+      ['Build a sentence','Arrange words into a meaningful sentence.'],
+      ['Grammar practice','Review the grammar points with mixed exercises.']
+    ];
+    let g=0;
+    while(pages.length<Math.floor(total*.80)){const x=grammar[g%grammar.length];add('Grammar',x[0],x[1]);g++;}
+    const reading=[
+      ['Read and find','Read a short text and locate key information.'],
+      ['Picture-supported reading','Use pictures and context to understand a short passage.'],
+      ['Answer the questions','Answer simple comprehension questions.'],
+      ['Put the story in order','Sequence events from a short story.']
+    ];
+    let q=0;
+    while(pages.length<Math.floor(total*.90)){const x=reading[q%reading.length];add('Reading',x[0],x[1]);q++;}
+    while(pages.length<total-2)add('Review and challenge','Mixed skills review','Combine vocabulary, spelling, grammar and reading.');
+    if(pages.length<total)add('Answer key','Answers and suggested responses','Provide accurate answers for closed questions; note acceptable alternatives.');
+    if(pages.length<total)add('Completion','Certificate of achievement','Celebrate effort and completion.');
+    const midpoint=Math.ceil(pages.length/2);
+    const lines=[
+      'PAGE-BY-PAGE WORKBOOK PLAN','===========================','',
+      'Product: '+title,'Language: '+language,'Audience: '+audience,'Total pages: '+pages.length,
+      'Topics: '+topics.join(', '),'',
+      'PAGE-BY-PAGE OUTLINE',''
+    ];
+    pages.forEach((p,i)=>{
+      const level=mixed?(i<midpoint?'Little Learners (ages 6–7)':'Young Explorers (ages 8–10)'):v('level');
+      lines.push('PAGE '+(i+1)+' | '+level);
+      lines.push('Section: '+p.section);
+      lines.push('Activity: '+p.task);
+      lines.push('Objective: '+p.objective);
+      lines.push('');
+    });
+    lines.push('PRODUCTION NOTES','- Keep instructions short and age-appropriate.');
+    lines.push('- Use original illustrations and consistent visual cues.');
+    lines.push('- Check every answer against the activity before exporting.');
+    lines.push('- Keep backgrounds printer-friendly and provide enough writing space.');
+    lines.push('- This is a structured draft; write and proofread the actual page content before design.');
+    return lines.join('\n');
+  }
   function makePlan(){
     const v=id=>document.getElementById(id).value.trim();
     const title=v('title'),type=v('type'),language=v('language'),audience=v('audience'),pages=v('pages'),level=v('level'),goal=v('goal'),style=v('style');
@@ -123,6 +196,13 @@
     preview.textContent=currentPlan;
     copyBtn.disabled=false;downloadBtn.disabled=false;
     status.textContent='Plan generated. Review the draft before production.';
+  });
+  document.getElementById('workbookBtn').addEventListener('click',()=>{
+    if(!form.reportValidity()) return;
+    currentPlan=makeWorkbook();
+    preview.textContent=currentPlan;
+    copyBtn.disabled=false;downloadBtn.disabled=false;
+    status.textContent='Page-by-page workbook outline generated. Review it before writing the lessons.';
   });
   copyBtn.addEventListener('click',async()=>{
     if(!currentPlan)return;
