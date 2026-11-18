@@ -1,6 +1,6 @@
 # AI Digital Product Creator
 
-**Status:** First product selected — English-learning workbook  
+**Status:** First product selected — English-learning workbook; existing-file audit started  
 **Goal:** Build a simple, repeatable workflow for creating digital products with AI and Canva, then preparing them for sale on Gumroad.
 
 ## Selected first product
@@ -11,26 +11,35 @@
 - **Young Explorers:** ages 8–10
 - **Format:** printable PDF, A4-first
 - **Design:** pastel accents, white printer-friendly background, friendly cartoon animals
-- **Proposed scope:** 60 pages
+- **Long-term concept:** expanded 60-page edition
 
-Project documents:
+## Project documents
+
 - [Product brief](product-brief.md)
+- [Existing-work audit](existing-work-audit.md)
 - [60-page content map](content-map.md)
 - [Production checklist](production-checklist.md)
 
-## Important: audit before rebuilding
+## Existing-work audit — initial findings
 
-Earlier work included a shorter children's English workbook / Vocabulary Adventures materials and a Gumroad listing. The existing files and live listing must be inspected before deciding whether to expand that edition or create a separate 60-page edition. The planned 60-page structure is not yet marked as completed.
+Two prior PDF exports are available in the Library:
+- A 10-page PDF containing activity pages.
+- An 11-page PDF containing a cover plus 10 activity pages.
+
+The 11-page version already covers alphabet, everyday actions, body parts, school objects, family, animals, colours and shapes, numbers, fruits and vegetables, and food and drinks. It is therefore a real starting point, not a blank project.
+
+The next step is to review and correct the existing edition before expanding it. Specific issues identified in the extracted text are recorded in [existing-work-audit.md](existing-work-audit.md). The current files do not establish that the proposed 60-page edition is complete.
 
 ## Workflow
 
 1. **Audit** — inspect existing source files, PDFs, and Gumroad listing.
-2. **Plan** — confirm product scope and learning objectives.
-3. **Create** — draft and proofread all activities and answer keys.
-4. **Design** — build consistent pages in Canva.
-5. **Check** — inspect the exported PDF page by page.
-6. **Publish** — verify the Gumroad listing, previews, and delivered files.
-7. **Improve** — record feedback and plan the next version.
+2. **Correct** — fix language, activity logic, answer keys, and layout issues.
+3. **Plan** — map the existing pages into the expanded edition.
+4. **Create** — draft additional activities and proofread them.
+5. **Design** — build consistent pages in Canva.
+6. **Check** — inspect the exported PDF page by page.
+7. **Publish** — verify the Gumroad listing, previews, and delivered files.
+8. **Improve** — record feedback and plan the next version.
 
 ## MVP principles
 
