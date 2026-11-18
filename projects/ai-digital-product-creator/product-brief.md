@@ -1,6 +1,6 @@
 # Product Brief — SMART KIDS – ENGLISH ADVENTURES
 
-**Status:** Planning / existing-material audit required  
+**Status:** Existing 10–11 page edition found; audit and correction required  
 **Product type:** Printable English-learning workbook (PDF)  
 **Market:** International / Gumroad  
 **Language:** English  
@@ -34,21 +34,15 @@ The two levels must feel connected but must not simply repeat identical exercise
 - Consistent page structure and clear activity instructions.
 - Avoid crowded pages, tiny text, and excessive ink-heavy backgrounds.
 
-## Proposed 60-page structure
+## Existing edition found
 
-See [content-map.md](content-map.md) for the page-by-page plan.
+The Library contains two exports: one 10-page PDF and one 11-page PDF. The 11-page export appears to contain a cover and 10 activity pages. Existing topics include alphabet, everyday actions, body parts, school objects, family, animals, colours and shapes, numbers, fruits and vegetables, and food and drinks.
 
-| Section | Pages | Purpose |
-|---|---:|---|
-| Welcome and how to use | 1–4 | Introduce the workbook and learning levels |
-| Vocabulary | 5–14 | Build everyday word knowledge |
-| Spelling and grammar | 15–24 | Practise foundational language patterns |
-| Reading | 25–34 | Develop comprehension |
-| Writing and creativity | 35–44 | Build confidence expressing ideas |
-| Games and puzzles | 45–54 | Reinforce learning through play |
-| Final challenges | 55–57 | Review both levels |
-| Answer keys | 58–59 | Support parents and teachers |
-| Certificate | 60 | Celebrate completion |
+See [existing-work-audit.md](existing-work-audit.md) for the initial review and corrections required.
+
+## Proposed expansion
+
+The 60-page concept remains a proposed expansion, not a completed product. See [content-map.md](content-map.md) for the page-by-page plan. Before expanding, decide whether the existing short edition should become a standalone starter product or be used as the foundation for the larger workbook.
 
 ## Quality requirements
 
@@ -60,22 +54,13 @@ See [content-map.md](content-map.md) for the page-by-page plan.
 - Check every page at normal screen size and in a printed-page preview.
 - Ensure page numbering, margins, contrast, and answer spaces are consistent.
 
-## Existing-work audit — do this before creating a duplicate
-
-Earlier work included a shorter children's English workbook / Vocabulary Adventures materials and a Gumroad product listing. Do not assume those files are identical to this 60-page concept or that the 60-page version is complete.
-
-1. Locate the latest editable Canva source and exported PDFs.
-2. Record exact page count, title, dimensions, and version date.
-3. Compare existing pages with the 60-page content map.
-4. Decide whether to improve and expand the existing workbook or create a separate edition.
-5. Check the live Gumroad listing before changing its title, files, or price.
-
 ## Current success criteria
 
-- [ ] Existing workbook files and listing audited.
-- [ ] Final product scope confirmed (revise existing edition or build the 60-page edition).
-- [ ] Content drafted and proofread.
-- [ ] Activities and answer keys checked.
-- [ ] Canva design completed.
-- [ ] PDF exported and inspected.
-- [ ] Gumroad product page and delivered files checked.
+- [x] Locate existing PDF exports.
+- [ ] Confirm which PDF is the intended latest edition.
+- [ ] Locate the editable Canva source.
+- [ ] Review and correct all existing pages.
+- [ ] Check the live Gumroad listing and delivered files.
+- [ ] Confirm whether to sell the short edition separately or expand it to 60 pages.
+- [ ] Draft and proofread additional content.
+- [ ] Complete Canva design and final PDF inspection.
