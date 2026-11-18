@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b5c">
+  <title>AI Digital Product Creator | MOHSSINE AI HUB</title>
+  <style>
+    :root{--navy:#102b5c;--blue:#2563eb;--sky:#eff6ff;--ink:#172033;--muted:#64748b;--line:#dbe4f0;--white:#fff;--green:#087f5b}
+    *{box-sizing:border-box}body{margin:0;background:#f5f8fc;color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .top{background:linear-gradient(120deg,#0b1f45,#174a91);color:#fff;padding:22px max(22px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.mark{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:18px;font-weight:900}
+    .top small{color:#dbeafe}.shell{max-width:1120px;margin:34px auto;padding:0 20px}.hero{margin-bottom:26px}.eyebrow{color:var(--blue);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.hero h1{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:8px 0;color:var(--navy)}.hero p{color:var(--muted);max-width:700px;margin:0}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.85fr);gap:22px;align-items:start}.panel{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 28px rgba(16,43,92,.05)}.panel h2{font-size:19px;margin:0 0 4px;color:var(--navy)}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}
+    .field{margin:16px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px 13px;font:inherit;color:var(--ink);background:#fff;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2563eb18}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hint{font-size:12px;color:var(--muted);margin-top:5px}
+    .btn{border:0;border-radius:11px;padding:12px 17px;font:700 14px inherit;cursor:pointer;transition:.15s}.primary{background:var(--blue);color:white}.primary:hover{background:#1d4ed8}.secondary{background:var(--sky);color:var(--navy);border:1px solid #bfdbfe}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .preview{min-height:350px;background:#f8fbff;border:1px dashed #b8c9e3;border-radius:14px;padding:18px;white-space:pre-wrap;color:#334155;font-size:13px;overflow-wrap:anywhere}.empty{display:grid;place-items:center;text-align:center;min-height:300px;color:var(--muted);padding:24px}.empty .symbol{font-size:34px;margin-bottom:8px}.status{font-size:12px;color:var(--green);font-weight:700;min-height:20px;margin-top:10px}.feature-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.chip{font-size:11px;background:#eff6ff;color:#1e40af;padding:5px 9px;border-radius:30px;font-weight:700}.foot{text-align:center;color:var(--muted);font-size:12px;padding:28px}
+    @media(max-width:800px){.layout{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.two{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.two{grid-template-columns:1fr}.panel{padding:18px}.shell{margin:24px auto}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="mark">M</div><div>MOHSSINE AI HUB<br><small>AI Digital Product Creator</small></div></div>
+  <small>Build • Organise • Create</small>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="eyebrow">Your digital product workspace</div>
+    <h1>Turn an idea into a product brief.</h1>
+    <p>Start with a clear product concept, define your audience, and generate a structured first-draft plan you can review before designing in Canva.</p>
+    <div class="feature-row"><span class="chip">Beginner-friendly</span><span class="chip">A4-first workflow</span><span class="chip">Review before publishing</span></div>
+  </section>
+  <section class="layout">
+    <div class="panel">
+      <h2>01 / Product setup</h2><p class="sub">Enter the details for your next digital product.</p>
+      <form id="productForm">
+        <div class="field"><label for="title">Product name</label><input id="title" value="SMART KIDS – ENGLISH ADVENTURES" required maxlength="90"></div>
+        <div class="two">
+          <div class="field"><label for="type">Product type</label><select id="type"><option>Educational workbook</option><option>Activity book</option><option>Printable planner</option><option>Template bundle</option><option>Digital guide / ebook</option></select></div>
+          <div class="field"><label for="language">Product language</label><select id="language"><option>English</option><option>French</option><option>Arabic</option><option>Spanish</option></select></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="audience">Target audience</label><input id="audience" value="Children ages 6–10" required></div>
+          <div class="field"><label for="pages">Target pages</label><select id="pages"><option>20</option><option selected>60</option><option>30</option><option>40</option><option>80</option></select></div>
+        </div>
+        <div class="field"><label for="level">Learning level / complexity</label><select id="level"><option value="mixed">Two levels: ages 6–7 and 8–10</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></div>
+        <div class="field"><label for="goal">Main learning or customer outcome</label><textarea id="goal" rows="3">Help children practise vocabulary, spelling, basic grammar, reading and writing through fun activities.</textarea></div>
+        <div class="field"><label for="style">Design direction</label><input id="style" value="Clean white pages, soft pastel accents, friendly original cartoon animals"></div>
+        <div class="actions"><button class="btn primary" type="submit">Generate product plan ↗</button><button class="btn secondary" type="reset">Reset form</button></div>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>02 / Your product plan</h2><p class="sub">Your draft appears here. Review it before using it in production.</p>
+      <div id="preview" class="preview"><div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div></div>
+      <div class="actions"><button id="copyBtn" class="btn secondary" type="button" disabled>Copy plan</button><button id="downloadBtn" class="btn secondary" type="button" disabled>Download .txt</button></div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+<footer class="foot">MOHSSINE AI HUB · MVP v0.1 · Drafts are generated in your browser and are not automatically saved.</footer>
+<script>
+  const form=document.getElementById('productForm');
+  const preview=document.getElementById('preview');
+  const copyBtn=document.getElementById('copyBtn');
+  const downloadBtn=document.getElementById('downloadBtn');
+  const status=document.getElementById('status');
+  let currentPlan='';
+  function makePlan(){
+    const v=id=>document.getElementById(id).value.trim();
+    const title=v('title'),type=v('type'),language=v('language'),audience=v('audience'),pages=v('pages'),level=v('level'),goal=v('goal'),style=v('style');
+    const levelText=level==='mixed'?'Little Learners (6–7): short words, matching, tracing and simple sentences.\nYoung Explorers (8–10): wider vocabulary, sentence building, reading and independent challenges.':level[0].toUpperCase()+level.slice(1);
+    const outline=[
+      'PRODUCT PLAN',
+      '===========',
+      '',
+      'Product: '+title,
+      'Type: '+type,
+      'Language: '+language,
+      'Audience: '+audience,
+      'Target length: '+pages+' pages',
+      'Level: '+levelText,
+      '',
+      'CUSTOMER OUTCOME',
+      goal,
+      '',
+      'PROPOSED CONTENT STRUCTURE',
+      '1. Cover and product promise',
+      '2. How to use this product',
+      '3. Learning goals / progress tracker',
+      '4. Core lessons and guided examples',
+      '5. Practice activities and interactive tasks',
+      '6. Review pages and a final challenge',
+      '7. Answer key / completion certificate (where relevant)',
+      '',
+      'DESIGN DIRECTION',
+      style,
+      'Use consistent headings, readable type, generous writing space and printer-friendly page backgrounds.',
+      '',
+      'QUALITY CHECKLIST',
+      '[ ] One clear objective per activity',
+      '[ ] Instructions are age-appropriate and proofread',
+      '[ ] Exercises and answer key match exactly',
+      '[ ] Layout, margins and page numbering are consistent',
+      '[ ] Exported PDF checked page by page',
+      '[ ] Product description and preview images match the delivered file',
+      '',
+      'NEXT ACTIONS',
+      '1. Confirm the target customer and product promise.',
+      '2. Create a detailed page-by-page content map.',
+      '3. Draft and proofread the content before designing.',
+      '4. Build the pages in Canva using the chosen design system.',
+      '5. Export, inspect and prepare the final files for the sales platform.',
+      '',
+      'NOTE: This is a planning draft, not a finished or published product.'
+    ];
+    return outline.join('\n');
+  }
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!form.reportValidity()) return;
+    currentPlan=makePlan();
+    preview.textContent=currentPlan;
+    copyBtn.disabled=false;downloadBtn.disabled=false;
+    status.textContent='Plan generated. Review the draft before production.';
+  });
+  copyBtn.addEventListener('click',async()=>{
+    if(!currentPlan)return;
+    try{await navigator.clipboard.writeText(currentPlan);status.textContent='Plan copied to clipboard.'}
+    catch(e){status.textContent='Clipboard access unavailable. Use Download .txt instead.'}
+  });
+  downloadBtn.addEventListener('click',()=>{
+    if(!currentPlan)return;
+    const blob=new Blob([currentPlan],{type:'text/plain;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');
+    a.href=url;a.download='product-plan.txt';a.click();URL.revokeObjectURL(url);
+    status.textContent='Your text file has been prepared.';
+  });
+  form.addEventListener('reset',()=>{currentPlan='';preview.innerHTML='<div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div>';copyBtn.disabled=true;downloadBtn.disabled=true;status.textContent=''});
+</script>
+</body>
+</html>
