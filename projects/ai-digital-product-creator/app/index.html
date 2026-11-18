@@ -326,30 +326,30 @@
       status.textContent='Generate full page content + answers first.';
       return;
     }
-    const lines=currentPlan.split(/\\r?\\n/);
+    const lines=currentPlan.split(/\r?\n/);
     const pageStarts=[];
     let answerStart=lines.findIndex(line=>line.trim()==='TEACHER / PARENT ANSWER KEY');
     let editorialStart=lines.findIndex(line=>line.trim()==='EDITORIAL CHECK BEFORE DESIGN');
-    lines.forEach((line,index)=>{if(/^PAGE \\d+ \\|/.test(line))pageStarts.push(index);});
+    lines.forEach((line,index)=>{if(/^PAGE \d+ \|/.test(line))pageStarts.push(index);});
     const meta=lines.slice(0,pageStarts[0]||0).filter(line=>line.trim() && !/^=+$/.test(line));
     const titleLine=meta.find(line=>line.startsWith('Product:'))||'Product: Learning Workbook';
-    const title=titleLine.replace(/^Product:\\s*/,'');
+    const title=titleLine.replace(/^Product:\s*/,'');
     const pageEnd=answerStart>0?answerStart:(editorialStart>0?editorialStart:lines.length);
     const sections=[];
     for(let i=0;i<pageStarts.length;i++){
       const start=pageStarts[i],end=i+1<pageStarts.length?pageStarts[i+1]:pageEnd;
       const chunk=lines.slice(start,end).filter((line,index)=>index!==0 || line.trim());
       const pageLabel=lines[start].split('|')[0].trim();
-      sections.push({label:pageLabel,content:chunk.join('\\n').trim()});
+      sections.push({label:pageLabel,content:chunk.join('\n').trim()});
     }
     if(answerStart>0){
       const end=editorialStart>answerStart?editorialStart:lines.length;
-      const answerText=lines.slice(answerStart+2,end).join('\\n').trim();
-      const answerItems=answerText.split(/(?=Page \\d+ — )/).map(x=>x.trim()).filter(Boolean);
+      const answerText=lines.slice(answerStart+2,end).join('\n').trim();
+      const answerItems=answerText.split(/(?=Page \d+ — )/).map(x=>x.trim()).filter(Boolean);
       answerItems.forEach((item,index)=>sections.push({label:'ANSWER KEY '+(index+1),content:item}));
     }
     if(editorialStart>0){
-      sections.push({label:'EDITORIAL CHECK',content:lines.slice(editorialStart).join('\\n').trim()});
+      sections.push({label:'EDITORIAL CHECK',content:lines.slice(editorialStart).join('\n').trim()});
     }
     const pagesHtml=sections.map((section,index)=>'<section class="page"><div class="page-top"><span>MOHSSINE AI HUB</span><span>'+escapeHtml(section.label)+'</span></div><h1>'+escapeHtml(title)+'</h1><pre>'+escapeHtml(section.content)+'</pre><div class="page-footer"><span>Learning Workbook</span><span>'+(index+1)+' / '+sections.length+'</span></div></section>').join('');
     const popup=window.open('','_blank');
