@@ -20,6 +20,8 @@
 <button data-tab="entries">＋ Opérations</button>
 <button data-tab="journal">▤ Journal</button>
 <button data-tab="vat">٪ Calcul TVA</button>
+<button data-tab="contacts">♙ Tiers</button>
+<button data-tab="company">⚙ Entreprise</button>
 </nav>
 <div class="side-note">Version 0.1 · Application locale<br>Vos données restent dans ce navigateur.</div>
 </aside>
@@ -66,12 +68,41 @@
 <div class="panel"><h2>Formules</h2><div class="vat-result"><strong>TVA</strong> = HT × taux / 100<br><strong>TTC</strong> = HT + TVA<br><strong>HT depuis TTC</strong> = TTC / (1 + taux / 100)<br><br>Exemple : 1 000 DH HT avec 20 % de TVA donne 200 DH de TVA et 1 200 DH TTC.</div></div>
 </div>
 </section>
+<section id="contacts" class="section">
+<div class="layout">
+<div class="panel"><h2>Ajouter un client ou fournisseur</h2>
+<form id="contactForm"><div class="form-grid">
+<div class="field"><label for="contactType">Type de tiers</label><select id="contactType"><option value="client">Client</option><option value="fournisseur">Fournisseur</option></select></div>
+<div class="field"><label for="contactName">Nom / Raison sociale</label><input id="contactName" maxlength="120" required></div>
+<div class="field"><label for="contactIce">ICE</label><input id="contactIce" maxlength="20" placeholder="Identifiant commun de l'entreprise"></div>
+<div class="field"><label for="contactPhone">Téléphone</label><input id="contactPhone" maxlength="30"></div>
+<div class="field full"><label for="contactEmail">E-mail</label><input id="contactEmail" type="email" maxlength="120"></div>
+</div><div class="actions"><button class="btn primary" type="submit">Enregistrer le tiers</button><button class="btn secondary" type="reset">Effacer</button></div></form>
+</div>
+<div class="panel"><h2>Répertoire des tiers</h2><p class="sub">Répertoire local de démonstration. Les données ne sont pas encore partagées entre utilisateurs.</p><div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:14px 0 0"><div><div class="metric-label">Clients</div><div class="metric" id="clientCount">0</div></div><div><div class="metric-label">Fournisseurs</div><div class="metric" id="supplierCount">0</div></div></div></div>
+</div>
+<div class="panel" style="margin-top:16px"><h2>Liste des clients et fournisseurs</h2><div class="table-wrap"><table><thead><tr><th>Type</th><th>Nom</th><th>ICE</th><th>Téléphone</th><th>E-mail</th><th>Action</th></tr></thead><tbody id="contactRows"></tbody></table></div></div>
+</section>
+<section id="company" class="section">
+<div class="panel"><h2>Fiche de l'entreprise</h2><p class="sub">Renseignez les informations légales de l'entreprise. Elles sont enregistrées localement dans ce navigateur.</p>
+<form id="companyForm"><div class="form-grid">
+<div class="field full"><label for="companyName">Raison sociale</label><input id="companyName" maxlength="150" placeholder="Nom de l'entreprise" required></div>
+<div class="field"><label for="companyIce">ICE</label><input id="companyIce" maxlength="20"></div>
+<div class="field"><label for="companyIf">Identifiant fiscal (IF)</label><input id="companyIf" maxlength="30"></div>
+<div class="field"><label for="companyRc">Registre de commerce (RC)</label><input id="companyRc" maxlength="30"></div>
+<div class="field"><label for="companyCity">Ville</label><input id="companyCity" maxlength="80" placeholder="Casablanca"></div>
+<div class="field full"><label for="companyAddress">Adresse</label><input id="companyAddress" maxlength="200"></div>
+<div class="field"><label for="companyYear">Début de l'exercice</label><input id="companyYear" type="date"></div>
+<div class="field"><label for="companyCurrency">Devise</label><select id="companyCurrency"><option value="MAD">MAD · Dirham marocain</option></select></div>
+</div><div class="actions"><button class="btn primary" type="submit">Enregistrer la fiche</button></div><p class="metric-note">La fiche entreprise est une première étape. La séparation multi-sociétés et la base de données sécurisée seront développées ultérieurement.</p></form>
+</div>
+</section>
 <div class="footer">MOHSSINE ACCOUNTING · Prototype éducatif · MAD / Maroc</div>
 </main>
 </div>
 <script>
 (function(){
-const STORE='mohssine_accounting_entries_v1';
+const STORE='mohssine_accounting_entries_v1';\nconst CONTACT_STORE='mohssine_accounting_contacts_v1';\nconst COMPANY_STORE='mohssine_accounting_company_v1';\nlet contacts=[];let company={};\ntry{contacts=JSON.parse(localStorage.getItem(CONTACT_STORE)||'[]');if(!Array.isArray(contacts))contacts=[]}catch(e){contacts=[]}\ntry{company=JSON.parse(localStorage.getItem(COMPANY_STORE)||'{}')||{}}catch(e){company={}}
 let entries=[];
 try{entries=JSON.parse(localStorage.getItem(STORE)||'[]');if(!Array.isArray(entries))entries=[]}catch(e){entries=[]}
 const $=id=>document.getElementById(id);
@@ -82,7 +113,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 window.showTab=function(tab){
 document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===tab));
 document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
-$('pageTitle').textContent=({dashboard:'Tableau de bord',entries:'Opérations',journal:'Journal',vat:'Calcul TVA'})[tab]||'Tableau de bord';
+$('pageTitle').textContent=({dashboard:'Tableau de bord',entries:'Opérations',journal:'Journal',vat:'Calcul TVA',contacts:'Clients & fournisseurs',company:'Fiche entreprise'})[tab]||'Tableau de bord';
 };
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 function totals(){
@@ -113,6 +144,28 @@ $('journalRows').innerHTML=journalLines.map(l=>'<tr><td>'+fmtDate(l.entry.date)+
 (journalLines.length?'<tr><td colspan="5"><strong>TOTAUX · '+(Math.abs(debitTotal-creditTotal)<0.01?'ÉQUILIBRÉ':'ÉCART À CONTRÔLER')+'</strong></td><td><strong>'+money(debitTotal)+'</strong></td><td><strong>'+money(creditTotal)+'</strong></td></tr>':'<tr><td colspan="7" class="empty">Le journal apparaîtra après la saisie des opérations.</td></tr>');
 $('quickSummary').innerHTML=entries.length?'<strong>'+entries.length+'</strong> opération(s) enregistrée(s).<br>Ventes : <strong>'+money(t.vente)+'</strong><br>Achats : <strong>'+money(t.achat)+'</strong><br>Solde simplifié : <strong>'+money(t.vente-t.achat)+'</strong>':'Ajoutez votre première opération pour commencer.';
 }
+function renderContacts(){
+$('clientCount').textContent=contacts.filter(x=>x.type==='client').length;
+$('supplierCount').textContent=contacts.filter(x=>x.type==='fournisseur').length;
+$('contactRows').innerHTML=contacts.map(x=>'<tr><td><span class="tag '+(x.type==='client'?'vente':'achat')+'">'+(x.type==='client'?'Client':'Fournisseur')+'</span></td><td><strong>'+esc(x.name)+'</strong></td><td>'+esc(x.ice||'—')+'</td><td>'+esc(x.phone||'—')+'</td><td>'+esc(x.email||'—')+'</td><td><button class="btn danger" data-contact-delete="'+x.id+'">Supprimer</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Aucun tiers enregistré.</td></tr>';
+}
+function loadCompany(){
+['Name','Ice','If','Rc','City','Address','Year','Currency'].forEach(k=>{const el=$('company'+k);if(el)el.value=company[k.toLowerCase()]|| (k==='Currency'?'MAD':'')});
+}
+$('contactForm').addEventListener('submit',e=>{
+e.preventDefault();
+contacts.push({id:String(Date.now())+Math.random().toString(16).slice(2),type:$('contactType').value,name:$('contactName').value.trim(),ice:$('contactIce').value.trim(),phone:$('contactPhone').value.trim(),email:$('contactEmail').value.trim()});
+localStorage.setItem(CONTACT_STORE,JSON.stringify(contacts));renderContacts();$('contactForm').reset();
+});
+$('contactRows').addEventListener('click',e=>{
+const b=e.target.closest('[data-contact-delete]');if(!b)return;
+if(confirm('Supprimer ce tiers du répertoire ?')){contacts=contacts.filter(x=>x.id!==b.dataset.contactDelete);localStorage.setItem(CONTACT_STORE,JSON.stringify(contacts));renderContacts()}
+});
+$('companyForm').addEventListener('submit',e=>{
+e.preventDefault();
+company={name:$('companyName').value.trim(),ice:$('companyIce').value.trim(),if:$('companyIf').value.trim(),rc:$('companyRc').value.trim(),city:$('companyCity').value.trim(),address:$('companyAddress').value.trim(),year:$('companyYear').value,currency:$('companyCurrency').value};
+localStorage.setItem(COMPANY_STORE,JSON.stringify(company));alert('Fiche entreprise enregistrée dans ce navigateur.');
+});
 function previewEntry(){
 const ht=Math.max(0,Number($('entryHt').value)||0),rate=Number($('entryRate').value)||0,vat=ht*rate/100;
 $('entryPreview').textContent='TVA : '+money(vat)+' · TTC : '+money(ht+vat);
@@ -143,7 +196,7 @@ const ht=Math.max(0,Number($('vatHt').value)||0),rate=Number($('vatRate').value)
 $('vatCalc').innerHTML='Montant HT : <strong>'+money(ht)+'</strong><br>TVA ('+rate+' %) : <strong>'+money(vat)+'</strong><br>Montant TTC : <strong>'+money(ht+vat)+'</strong>';
 }
 $('vatHt').addEventListener('input',calcVat);$('vatRate').addEventListener('change',calcVat);
-render();previewEntry();calcVat();
+render();renderContacts();loadCompany();previewEntry();calcVat();
 })();
 </script>
 </body>
