@@ -53,3 +53,15 @@ These are issues visible in the extracted PDF text. Check the actual page design
 - [ ] Correct the text and activity issues listed above.
 - [ ] Verify answer keys or prepare a complete answer key.
 - [ ] Check the current Gumroad product page and download files.
+
+## Visual spot-check
+
+Selected pages from the 11-page export were rendered and reviewed:
+
+- **Cover (PDF page 1):** friendly character illustration and clear title hierarchy. Check the blank green capsule near the title; if it is intended for a subtitle or name, label it or remove it.
+- **Everyday Actions (PDF page 3):** the Young Explorers area is crowded. Some headings and instruction text overlap, and the writing lines are numbered 1, 2, 4, 5, 6 with number 3 missing. Rebuild this page's layout and numbering before release.
+- **School Objects (PDF page 5):** visual structure is clearer, but the lower section is dense. Ensure the small word prompts remain readable at actual A4 print size.
+- **Colors and Shapes (PDF page 8):** the page is colourful and well-structured overall. Check the instruction sequence and the Young Explorers sentence-completion exercise for clarity and consistent numbering.
+- **Food and Drinks (PDF page 11):** the page has a clear two-level structure and usable drawing/writing areas. Proofread the menu prompts and ensure the final exported text remains legible.
+
+This is a spot-check of selected pages, not a complete visual approval of all 11 pages.
