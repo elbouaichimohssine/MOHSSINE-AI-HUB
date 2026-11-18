@@ -1,19 +1,36 @@
 # AI Digital Product Creator
 
-**Status:** Project started — MVP planning  
+**Status:** First product selected — English-learning workbook  
 **Goal:** Build a simple, repeatable workflow for creating digital products with AI and Canva, then preparing them for sale on Gumroad.
 
-## What this project will do
+## Selected first product
 
-The first version will help organize the work from product idea to publication:
+**SMART KIDS – ENGLISH ADVENTURES** — a printable English-learning workbook for children ages 6–10, planned for international Gumroad customers.
 
-1. **Research** — identify a clear audience, problem, and product idea.
-2. **Plan** — write a product brief, page outline, and quality requirements.
-3. **Create** — draft the content with AI and review it manually.
-4. **Design** — build the pages or templates in Canva.
-5. **Check** — review spelling, layout, file quality, and customer usability.
-6. **Publish** — prepare the title, description, preview images, price, and files for Gumroad.
-7. **Improve** — use customer feedback and sales data to plan the next version.
+- **Little Learners:** ages 6–7
+- **Young Explorers:** ages 8–10
+- **Format:** printable PDF, A4-first
+- **Design:** pastel accents, white printer-friendly background, friendly cartoon animals
+- **Proposed scope:** 60 pages
+
+Project documents:
+- [Product brief](product-brief.md)
+- [60-page content map](content-map.md)
+- [Production checklist](production-checklist.md)
+
+## Important: audit before rebuilding
+
+Earlier work included a shorter children's English workbook / Vocabulary Adventures materials and a Gumroad listing. The existing files and live listing must be inspected before deciding whether to expand that edition or create a separate 60-page edition. The planned 60-page structure is not yet marked as completed.
+
+## Workflow
+
+1. **Audit** — inspect existing source files, PDFs, and Gumroad listing.
+2. **Plan** — confirm product scope and learning objectives.
+3. **Create** — draft and proofread all activities and answer keys.
+4. **Design** — build consistent pages in Canva.
+5. **Check** — inspect the exported PDF page by page.
+6. **Publish** — verify the Gumroad listing, previews, and delivered files.
+7. **Improve** — record feedback and plan the next version.
 
 ## MVP principles
 
@@ -22,39 +39,3 @@ The first version will help organize the work from product idea to publication:
 - Do not automate a step until the manual version works reliably.
 - Check all AI-generated content before publishing.
 - Never claim a product is finished or published until it has actually been checked.
-
-## First workflow
-
-| Stage | Output |
-|---|---|
-| Product idea | One-sentence concept and target audience |
-| Product brief | Audience, problem, format, language, and promise |
-| Content plan | Page-by-page outline or template list |
-| Draft | Reviewed text and activities |
-| Design | Canva project |
-| Final files | Exported PDF or template delivery files |
-| Gumroad listing | Title, description, price, cover, and product files |
-| Review | Checklist and improvement notes |
-
-## Suggested tools
-
-- **ChatGPT:** brainstorming, outlines, drafting, and quality review
-- **Canva:** visual design and export
-- **Google Drive:** file organization and backups
-- **Gumroad:** product listing and sales
-
-Tool availability and free-plan limits may change. Check them before depending on a feature.
-
-## Definition of done for the first MVP
-
-- [ ] Choose one product to build through this workflow.
-- [ ] Complete its product brief.
-- [ ] Create and review the content.
-- [ ] Design and export the product.
-- [ ] Check the exported files on screen.
-- [ ] Prepare the Gumroad listing.
-- [ ] Record what worked and what should improve.
-
-## Next step
-
-Choose the first product to run through this workflow: a **Beauty Branding Kit / Instagram template pack** or an **English-learning workbook for children**.
