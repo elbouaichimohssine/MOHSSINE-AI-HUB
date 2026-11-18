@@ -113,7 +113,7 @@ $('entryForm').addEventListener('submit',e=>{
 e.preventDefault();
 const ht=Number($('entryHt').value),rate=Number($('entryRate').value);
 if(!Number.isFinite(ht)||ht<0){alert('Veuillez saisir un montant HT valide.');return}
-const vat=Math.round(ht*rate)/100;
+const vat=Math.round((ht*rate/100)*100)/100;
 entries.push({id:String(Date.now())+Math.random().toString(16).slice(2),type:$('entryType').value,date:$('entryDate').value,label:$('entryLabel').value.trim(),ht:ht,rate:rate,vat:vat,ttc:ht+vat,ref:$('entryRef').value.trim()});
 save();render();$('entryForm').reset();$('entryDate').value=new Date().toISOString().slice(0,10);previewEntry();alert('Opération enregistrée.'); 
 });
