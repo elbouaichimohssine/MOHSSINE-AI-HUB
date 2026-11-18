@@ -65,3 +65,16 @@ Selected pages from the 11-page export were rendered and reviewed:
 - **Food and Drinks (PDF page 11):** the page has a clear two-level structure and usable drawing/writing areas. Proofread the menu prompts and ensure the final exported text remains legible.
 
 This is a spot-check of selected pages, not a complete visual approval of all 11 pages.
+
+
+## First corrected page draft
+
+A corrected content draft for **Everyday Actions** has been added to [corrected-page-03-everyday-actions.md](corrected-page-03-everyday-actions.md).
+
+It fixes the following confirmed problems on PDF page 3:
+- The B section heading overlaps nearby content in the exported design.
+- The schedule includes a mismatched action (“have breakfast” at 6:00 p.m.) and the time/action options are not a coherent daily sequence.
+- The D writing lines skip number 3.
+- The schedule matching activity is rebuilt with six clear time/action matches and a checked answer key.
+
+The draft is content-ready, but it has **not** yet been placed into Canva or visually re-exported. Do not mark the page as complete until the new PDF has been inspected.
