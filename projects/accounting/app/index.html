@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOHSSINE ACCOUNTING | Gestion comptable</title>
+<style>
+:root{--navy:#10213b;--blue:#2563eb;--sky:#eaf1ff;--ink:#172033;--muted:#68758a;--line:#e4e9f1;--bg:#f5f7fb;--green:#14845b;--red:#c24141}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,Arial,sans-serif}.shell{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.sidebar{background:var(--navy);color:#fff;padding:26px 18px}.brand{font-size:20px;font-weight:800;letter-spacing:.3px}.brand small{display:block;color:#9db6e5;font-size:11px;letter-spacing:2px;margin-top:4px}.nav{display:grid;gap:8px;margin-top:38px}.nav button{border:0;background:transparent;color:#cbd6e8;text-align:left;padding:12px;border-radius:10px;cursor:pointer;font-weight:600}.nav button.active,.nav button:hover{background:#203858;color:#fff}.side-note{margin-top:45px;color:#9fb0c9;font-size:12px}.main{padding:28px;max-width:1400px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.eyebrow{color:var(--blue);font-size:11px;font-weight:800;letter-spacing:1.5px}.top h1{font-size:26px;margin:4px 0}.sub{color:var(--muted);margin:0}.pill{background:#e8f7ef;color:var(--green);padding:7px 11px;border-radius:30px;font-size:12px;font-weight:700}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.card,.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 3px 12px #12213b08}.metric-label{color:var(--muted);font-size:12px}.metric{font-size:25px;font-weight:800;margin-top:7px}.metric-note{font-size:11px;color:var(--muted);margin-top:3px}.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel h2{font-size:16px;margin:0 0 14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#43516a}input,select{width:100%;padding:10px 11px;border:1px solid #dce3ee;border-radius:9px;font:inherit;background:#fff;color:var(--ink)}input:focus,select:focus{outline:2px solid #c8d8ff;border-color:var(--blue)}.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:var(--sky);color:#1d4ed8}.danger{background:#fff0f0;color:var(--red)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:570px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-weight:700;background:#fbfcfe}td strong{font-size:12px}.tag{padding:4px 7px;border-radius:20px;font-size:10px;font-weight:700}.achat{background:#fff3e8;color:#a65312}.vente{background:#eaf7ef;color:#16734d}.empty{text-align:center;color:var(--muted);padding:28px}.hidden{display:none!important}.section{display:none}.section.active{display:block}.notice{padding:12px 14px;border-radius:10px;background:#fff8e8;color:#80551b;font-size:12px;margin-bottom:16px}.vat-result{font-size:13px;line-height:1.9;color:var(--muted);margin-top:10px}.vat-result strong{color:var(--ink)}.footer{margin-top:20px;color:#8a95a7;font-size:11px;text-align:center}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{padding:15px}.nav{display:flex;overflow:auto;margin-top:15px}.nav button{white-space:nowrap}.side-note{display:none}.main{padding:18px}.cards{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}
+@media(max-width:520px){.top{align-items:flex-start;flex-direction:column}.cards{gap:9px}.card{padding:13px}.metric{font-size:20px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+<div class="brand">MOHSSINE<small>ACCOUNTING · MAROC</small></div>
+<nav class="nav">
+<button class="active" data-tab="dashboard">▦ Tableau de bord</button>
+<button data-tab="entries">＋ Opérations</button>
+<button data-tab="journal">▤ Journal</button>
+<button data-tab="vat">٪ Calcul TVA</button>
+</nav>
+<div class="side-note">Version 0.1 · Application locale<br>Vos données restent dans ce navigateur.</div>
+</aside>
+<main class="main">
+<div class="top"><div><div class="eyebrow">ESPACE DE GESTION</div><h1 id="pageTitle">Tableau de bord</h1><p class="sub">Suivez vos opérations comptables en dirhams marocains (MAD).</p></div><span class="pill">● Mode local activé</span></div>
+<div class="notice">Outil de suivi et d'apprentissage : il ne remplace pas un logiciel comptable certifié ni la validation d'un expert-comptable. Les écritures et règles fiscales doivent être vérifiées avant toute déclaration.</div>
+<section id="dashboard" class="section active">
+<div class="cards">
+<div class="card"><div class="metric-label">Total des ventes</div><div class="metric" id="salesTotal">0,00 DH</div><div class="metric-note">Opérations de type vente</div></div>
+<div class="card"><div class="metric-label">Total des achats</div><div class="metric" id="purchasesTotal">0,00 DH</div><div class="metric-note">Opérations de type achat</div></div>
+<div class="card"><div class="metric-label">Solde simplifié</div><div class="metric" id="balanceTotal">0,00 DH</div><div class="metric-note">Ventes moins achats</div></div>
+<div class="card"><div class="metric-label">TVA nette indicative</div><div class="metric" id="vatTotal">0,00 DH</div><div class="metric-note">TVA collectée moins déductible</div></div>
+</div>
+<div class="layout">
+<div class="panel"><h2>Dernières opérations</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Libellé</th><th>Type</th><th>TTC</th></tr></thead><tbody id="recentRows"></tbody></table></div></div>
+<div class="panel"><h2>Résumé rapide</h2><p class="sub">Indicateurs calculés à partir des opérations enregistrées.</p><div class="vat-result" id="quickSummary">Ajoutez votre première opération pour commencer.</div><div class="actions"><button class="btn secondary" onclick="showTab('entries')">Ajouter une opération</button></div></div>
+</div>
+</section>
+<section id="entries" class="section">
+<div class="layout">
+<div class="panel"><h2>Nouvelle opération</h2>
+<form id="entryForm">
+<div class="form-grid">
+<div class="field"><label for="entryType">Type</label><select id="entryType"><option value="vente">Vente</option><option value="achat">Achat</option></select></div>
+<div class="field"><label for="entryDate">Date</label><input id="entryDate" type="date" required></div>
+<div class="field full"><label for="entryLabel">Libellé / Fournisseur / Client</label><input id="entryLabel" maxlength="100" placeholder="Ex. Facture client ABC" required></div>
+<div class="field"><label for="entryHt">Montant HT (DH)</label><input id="entryHt" type="number" min="0" step="0.01" placeholder="1000" required></div>
+<div class="field"><label for="entryRate">Taux TVA</label><select id="entryRate"><option value="20">20 %</option><option value="14">14 %</option><option value="10">10 %</option><option value="0">0 % / Exonéré</option></select></div>
+<div class="field full"><label for="entryRef">Référence facture (facultatif)</label><input id="entryRef" maxlength="50" placeholder="FAC-2026-001"></div>
+</div>
+<div class="vat-result" id="entryPreview">TVA : 0,00 DH · TTC : 0,00 DH</div>
+<div class="actions"><button class="btn primary" type="submit">Enregistrer l'opération</button><button class="btn secondary" type="reset">Effacer</button></div>
+</form></div>
+<div class="panel"><h2>Export et gestion</h2><p class="sub">Téléchargez vos opérations pour les analyser dans Excel.</p><div class="actions"><button class="btn secondary" id="csvBtn">Exporter CSV</button><button class="btn danger" id="clearBtn">Effacer toutes les données</button></div><p class="metric-note">Attention : les données sont enregistrées uniquement dans le navigateur utilisé. Exportez régulièrement une sauvegarde.</p></div>
+</div>
+<div class="panel" style="margin-top:16px"><h2>Liste des opérations</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Libellé</th><th>Type</th><th>HT</th><th>TVA</th><th>TTC</th><th>Action</th></tr></thead><tbody id="entryRows"></tbody></table></div></div>
+</section>
+<section id="journal" class="section">
+<div class="panel"><h2>Journal simplifié des opérations</h2><p class="sub">Vue chronologique pour le suivi. Les numéros de comptes proposés sont indicatifs et doivent être adaptés au Plan Comptable Marocain et à la nature réelle de l'opération.</p><div class="table-wrap"><table><thead><tr><th>Date</th><th>Pièce</th><th>Libellé</th><th>Compte indicatif</th><th>Débit</th><th>Crédit</th></tr></thead><tbody id="journalRows"></tbody></table></div></div>
+</section>
+<section id="vat" class="section">
+<div class="layout">
+<div class="panel"><h2>Calculateur TVA</h2><div class="form-grid"><div class="field"><label for="vatHt">Montant HT (DH)</label><input type="number" id="vatHt" min="0" step="0.01" value="1000"></div><div class="field"><label for="vatRate">Taux TVA</label><select id="vatRate"><option value="20">20 %</option><option value="14">14 %</option><option value="10">10 %</option><option value="0">0 %</option></select></div></div><div class="vat-result" id="vatCalc"></div></div>
+<div class="panel"><h2>Formules</h2><div class="vat-result"><strong>TVA</strong> = HT × taux / 100<br><strong>TTC</strong> = HT + TVA<br><strong>HT depuis TTC</strong> = TTC / (1 + taux / 100)<br><br>Exemple : 1 000 DH HT avec 20 % de TVA donne 200 DH de TVA et 1 200 DH TTC.</div></div>
+</div>
+</section>
+<div class="footer">MOHSSINE ACCOUNTING · Prototype éducatif · MAD / Maroc</div>
+</main>
+</div>
+<script>
+(function(){
+const STORE='mohssine_accounting_entries_v1';
+let entries=[];
+try{entries=JSON.parse(localStorage.getItem(STORE)||'[]');if(!Array.isArray(entries))entries=[]}catch(e){entries=[]}
+const $=id=>document.getElementById(id);
+const money=n=>Number(n||0).toLocaleString('fr-MA',{minimumFractionDigits:2,maximumFractionDigits:2})+' DH';
+const fmtDate=s=>s?new Date(s+'T12:00:00').toLocaleDateString('fr-FR'):'—';
+const save=()=>localStorage.setItem(STORE,JSON.stringify(entries));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+window.showTab=function(tab){
+document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===tab));
+document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
+$('pageTitle').textContent=({dashboard:'Tableau de bord',entries:'Opérations',journal:'Journal',vat:'Calcul TVA'})[tab]||'Tableau de bord';
+};
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function totals(){
+return entries.reduce((a,e)=>{const sign=e.type==='vente'?1:-1;a[e.type]+=e.ttc;a.vatNet+=sign*e.vat;return a},{vente:0,achat:0,vatNet:0});
+}
+function render(){
+const t=totals();
+$('salesTotal').textContent=money(t.vente);$('purchasesTotal').textContent=money(t.achat);$('balanceTotal').textContent=money(t.vente-t.achat);$('vatTotal').textContent=money(t.vatNet);
+const sorted=entries.slice().sort((a,b)=>b.date.localeCompare(a.date));
+$('recentRows').innerHTML=sorted.slice(0,6).map(e=>'<tr><td>'+fmtDate(e.date)+'</td><td>'+esc(e.label)+'</td><td><span class="tag '+e.type+'">'+(e.type==='vente'?'Vente':'Achat')+'</span></td><td>'+money(e.ttc)+'</td></tr>').join('')||'<tr><td colspan="4" class="empty">Aucune opération enregistrée.</td></tr>';
+$('entryRows').innerHTML=sorted.map(e=>'<tr><td>'+fmtDate(e.date)+'</td><td>'+esc(e.label)+(e.ref?' · '+esc(e.ref):'')+'</td><td><span class="tag '+e.type+'">'+(e.type==='vente'?'Vente':'Achat')+'</span></td><td>'+money(e.ht)+'</td><td>'+money(e.vat)+'</td><td><strong>'+money(e.ttc)+'</strong></td><td><button class="btn danger" data-delete="'+e.id+'">Supprimer</button></td></tr>').join('')||'<tr><td colspan="7" class="empty">Aucune opération enregistrée.</td></tr>';
+$('journalRows').innerHTML=sorted.map(e=>{
+const sales=e.type==='vente';
+const account=sales?'3421 / 7111 / 4455':'6111 / 3455 / 4411';
+const debit=sales?e.ttc:e.ht+e.vat;
+const credit=sales?e.ht+e.vat:e.ttc;
+return '<tr><td>'+fmtDate(e.date)+'</td><td>'+esc(e.ref||'—')+'</td><td>'+esc(e.label)+'</td><td>'+account+'</td><td>'+money(debit)+'</td><td>'+money(credit)+'</td></tr>';
+}).join('')||'<tr><td colspan="6" class="empty">Le journal apparaîtra après la saisie des opérations.</td></tr>';
+$('quickSummary').innerHTML=entries.length?'<strong>'+entries.length+'</strong> opération(s) enregistrée(s).<br>Ventes : <strong>'+money(t.vente)+'</strong><br>Achats : <strong>'+money(t.achat)+'</strong><br>Solde simplifié : <strong>'+money(t.vente-t.achat)+'</strong>':'Ajoutez votre première opération pour commencer.';
+}
+function previewEntry(){
+const ht=Math.max(0,Number($('entryHt').value)||0),rate=Number($('entryRate').value)||0,vat=ht*rate/100;
+$('entryPreview').textContent='TVA : '+money(vat)+' · TTC : '+money(ht+vat);
+}
+['entryHt','entryRate'].forEach(id=>$(id).addEventListener('input',previewEntry));
+$('entryDate').value=new Date().toISOString().slice(0,10);
+$('entryForm').addEventListener('submit',e=>{
+e.preventDefault();
+const ht=Number($('entryHt').value),rate=Number($('entryRate').value);
+if(!Number.isFinite(ht)||ht<0){alert('Veuillez saisir un montant HT valide.');return}
+const vat=Math.round(ht*rate)/100;
+entries.push({id:String(Date.now())+Math.random().toString(16).slice(2),type:$('entryType').value,date:$('entryDate').value,label:$('entryLabel').value.trim(),ht:ht,rate:rate,vat:vat,ttc:ht+vat,ref:$('entryRef').value.trim()});
+save();render();$('entryForm').reset();$('entryDate').value=new Date().toISOString().slice(0,10);previewEntry();alert('Opération enregistrée.'); 
+});
+$('entryRows').addEventListener('click',e=>{
+const btn=e.target.closest('[data-delete]');if(!btn)return;
+if(confirm('Supprimer cette opération ?')){entries=entries.filter(x=>x.id!==btn.dataset.delete);save();render()}
+});
+$('csvBtn').addEventListener('click',()=>{
+if(!entries.length){alert('Aucune opération à exporter.');return}
+const rows=[['Date','Type','Libellé','Référence','HT','Taux TVA','TVA','TTC'],...entries.map(e=>[e.date,e.type,e.label,e.ref,e.ht,e.rate,e.vat,e.ttc])];
+const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='mohssine-accounting-operations.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+$('clearBtn').addEventListener('click',()=>{if(confirm('Attention : supprimer définitivement toutes les opérations de ce navigateur ?')){entries=[];save();render()}});
+function calcVat(){
+const ht=Math.max(0,Number($('vatHt').value)||0),rate=Number($('vatRate').value)||0,vat=ht*rate/100;
+$('vatCalc').innerHTML='Montant HT : <strong>'+money(ht)+'</strong><br>TVA ('+rate+' %) : <strong>'+money(vat)+'</strong><br>Montant TTC : <strong>'+money(ht+vat)+'</strong>';
+}
+$('vatHt').addEventListener('input',calcVat);$('vatRate').addEventListener('change',calcVat);
+render();previewEntry();calcVat();
+})();
+</script>
+</body>
+</html>
