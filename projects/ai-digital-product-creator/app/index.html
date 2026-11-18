@@ -48,7 +48,7 @@
         <div class="field"><label for="goal">Main learning or customer outcome</label><textarea id="goal" rows="3">Help children practise vocabulary, spelling, basic grammar, reading and writing through fun activities.</textarea></div>
         <div class="field"><label for="topics">Workbook topics (separate with commas)</label><textarea id="topics" rows="2">Alphabet, animals, colours, numbers, family, school objects, food, everyday actions</textarea><div class="hint">Add the themes you want to teach. You can edit this list anytime.</div></div>
         <div class="field"><label for="style">Design direction</label><input id="style" value="Clean white pages, soft pastel accents, friendly original cartoon animals"></div>
-        <div class="actions"><button class="btn primary" type="submit">Generate product plan ↗</button><button class="btn secondary" id="workbookBtn" type="button">Build page-by-page workbook ↗</button><button class="btn secondary" type="reset">Reset form</button></div>
+        <div class="actions"><button class="btn primary" type="submit">Generate product plan ↗</button><button class="btn secondary" id="workbookBtn" type="button">Build page-by-page workbook ↗</button><button class="btn secondary" id="detailedBtn" type="button">Generate full page content + answers ↗</button><button class="btn secondary" type="reset">Reset form</button></div>
       </form>
     </div>
     <div class="panel">
@@ -139,6 +139,107 @@
     lines.push('- This is a structured draft; write and proofread the actual page content before design.');
     return lines.join('\n');
   }
+  function makeDetailedWorkbook(){
+    const v=id=>document.getElementById(id).value.trim();
+    const title=v('title'), language=v('language'), audience=v('audience');
+    const total=Math.max(10,parseInt(v('pages'),10)||60);
+    const topics=v('topics').split(',').map(x=>x.trim()).filter(Boolean);
+    const topicList=topics.length?topics:['Animals','Colours','Family','Food'];
+    const mixed=v('level')==='mixed';
+    const bankFor=(topic)=>{
+      const s=topic.toLowerCase();
+      if(/animal|pet|wild/.test(s))return [['cat','a small pet that says meow'],['dog','a friendly pet that barks'],['bird','an animal with wings and feathers'],['fish','an animal that swims'],['lion','a large wild cat'],['rabbit','an animal with long ears']];
+      if(/colour|color/.test(s))return [['red','the colour of a ripe strawberry'],['blue','the colour of the sky'],['green','the colour of grass'],['yellow','the colour of the sun'],['black','the opposite of white'],['purple','a mix of red and blue']];
+      if(/number|count|math/.test(s))return [['one','1'],['two','2'],['three','3'],['four','4'],['five','5'],['six','6']];
+      if(/family/.test(s))return [['mother','a female parent'],['father','a male parent'],['sister','a girl who has the same parent as you'],['brother','a boy who has the same parent as you'],['baby','a very young child'],['grandmother','the mother of your mother or father']];
+      if(/school|class|stationery/.test(s))return [['book','you read it'],['pencil','you write with it'],['ruler','you measure with it'],['bag','you carry your school things in it'],['desk','you sit and work at it'],['eraser','you use it to remove pencil marks']];
+      if(/food|fruit|vegetable|drink/.test(s))return [['apple','a round fruit that can be red or green'],['banana','a long yellow fruit'],['bread','a food made from flour'],['milk','a white drink'],['carrot','an orange vegetable'],['water','a drink with no colour']];
+      if(/action|everyday|verb|routine/.test(s))return [['wake up','stop sleeping'],['eat','have food'],['read','look at words in a book'],['write','make words with a pen or pencil'],['play','have fun in a game'],['sleep','rest at night']];
+      if(/alphabet|letter/.test(s))return [['A','the first letter of the alphabet'],['B','the second letter of the alphabet'],['C','the third letter of the alphabet'],['D','the fourth letter of the alphabet'],['E','the fifth letter of the alphabet'],['F','the sixth letter of the alphabet']];
+      return [['book','something you can read'],['friend','a person you like and trust'],['house','a place where people live'],['happy','feeling good'],['small','not big'],['school','a place where children learn']];
+    };
+    const pages=[], answerKey=[];
+    const add=(section,heading,objective,body,answers=[])=>pages.push({section,heading,objective,body,answers});
+    add('Front matter','Cover: '+title,'Introduce the workbook.','Name: ______________________________\nMy goal: I will learn new English words and use them in simple sentences.\nIllustration idea: add one friendly character and three topic-related objects.');
+    if(pages.length<total)add('Front matter','Welcome, learner!','Explain how to use the workbook.','1. Look at each example.\n2. Read the instructions carefully.\n3. Write neatly in the spaces.\n4. Try first, then check your answers at the back.\nA grown-up can read the instructions with you.');
+    if(pages.length<total)add('Front matter','My progress tracker','Track completed units.','Colour one star after each completed unit.\nVocabulary: ☆ ☆ ☆ ☆ ☆\nGrammar: ☆ ☆ ☆ ☆ ☆\nReading: ☆ ☆ ☆ ☆ ☆\nMy favourite new word: __________________');
+    if(pages.length<total)add('Front matter','My learning goals','Set simple learning goals.','I can name familiar things. □\nI can spell simple words. □\nI can use a / an. □\nI can write a short sentence. □\nI can read a short text. □');
+    const vocabLimit=Math.min(Math.floor(total*.68),total-2);
+    let vi=0;
+    while(pages.length<vocabLimit){
+      const topic=topicList[vi%topicList.length], words=bankFor(topic), mode=vi%4;
+      let heading='',body='',answers=[];
+      if(mode===0){
+        heading='Meet the words: '+topic;
+        body='Look, say and read the words.\n'+words.map((w,i)=>(i+1)+'. '+w[0]+' — '+w[1]).join('\n')+'\n\nPractice: Choose three words. Copy each word two times.\n1. __________________  __________________\n2. __________________  __________________\n3. __________________  __________________';
+        answers=['Oral vocabulary practice: accept clear pronunciation.','Copying: spelling should match the word bank.'];
+      }else if(mode===1){
+        heading='Match the words: '+topic;
+        body='Write the correct letter next to each word.\n'+words.map((w,i)=>(i+1)+'. '+w[0]+'   _____').join('\n')+'\n\nA. '+words[3][1]+'\nB. '+words[0][1]+'\nC. '+words[5][1]+'\nD. '+words[2][1]+'\nE. '+words[1][1]+'\nF. '+words[4][1];
+        answers=['1-B','2-E','3-D','4-A','5-F','6-C'];
+      }else if(mode===2){
+        heading='Choose the correct word: '+topic;
+        const opts=words.slice(0,3).map(w=>w[0]);
+        body='Circle the correct answer.\n1. '+words[0][1]+': '+opts.join(' / ')+'\n2. '+words[1][1]+': '+opts.slice().reverse().join(' / ')+'\n3. '+words[2][1]+': '+[opts[1],opts[2],opts[0]].join(' / ')+'\n4. Copy your favourite word: __________________';
+        answers=['1. '+words[0][0],'2. '+words[1][0],'3. '+words[2][0],'4. Answers may vary.'];
+      }else{
+        heading='Spell it: '+topic;
+        body='Complete each word using the missing letters.\n'+words.slice(0,5).map((w,i)=>(i+1)+'. '+(w[0].length>3?w[0][0]+' _ '+w[0].slice(2):w[0][0]+' _')+'   Clue: '+w[1]).join('\n')+'\n\nWrite one word in a sentence:\n____________________________________________';
+        answers=words.slice(0,5).map((w,i)=>(i+1)+'. '+w[0]).concat(['Sentence: answers will vary; check meaning and spelling.']);
+      }
+      add('Vocabulary: '+topic,heading,'Learn, recognise and use topic vocabulary.',body,answers);
+      vi++;
+    }
+    const grammarLimit=Math.min(Math.floor(total*.80),total-2);
+    const grammar=[
+      ['Nouns: naming words','Read: The cat is on the bed. The girl has a book.\nCircle the naming words (nouns).\nWrite two more nouns: __________  __________',['cat, bed, girl, book','Answers may vary for the two extra nouns.']],
+      ['A or an','Complete each phrase with a or an.\n1. ___ apple\n2. ___ book\n3. ___ orange\n4. ___ pencil\n5. ___ elephant',['1. an','2. a','3. an','4. a','5. an']],
+      ['One or many?','Write the plural form.\n1. cat → __________\n2. book → __________\n3. dog → __________\n4. apple → __________\n5. pencil → __________',['1. cats','2. books','3. dogs','4. apples','5. pencils']],
+      ['Action verbs','Choose the best verb: read / eat / play.\n1. I ______ a book.\n2. We ______ football.\n3. They ______ an apple.',['1. read','2. play','3. eat']],
+      ['Build a sentence','Put the words in the correct order.\n1. like / I / apples\n2. is / The / blue / bag\n3. reads / Sara / a / book',['1. I like apples.','2. The bag is blue.','3. Sara reads a book.']],
+      ['Capital letters and full stops','Rewrite each sentence correctly.\n1. my name is ali\n2. i have a dog\n3. this is my book',['1. My name is Ali.','2. I have a dog.','3. This is my book.']]
+    ];
+    let gi=0;
+    while(pages.length<grammarLimit){const g=grammar[gi%grammar.length];add('Grammar',g[0],'Practise a basic English grammar skill.',g[1],g[2]);gi++;}
+    const readingLimit=Math.min(Math.floor(total*.90),total-2);
+    const readings=[
+      ['My Pet','I have a pet cat. Its name is Mimi. Mimi is small and white. She likes milk and sleeps in a basket.','1. What pet does the writer have?\n2. What is its name?\n3. What colour is Mimi?',['1. A cat.','2. Mimi.','3. White.']],
+      ['At School','Adam goes to school every day. He has a blue bag, two books and a pencil. His favourite lesson is English.','1. Where does Adam go?\n2. What colour is his bag?\n3. What is his favourite lesson?',['1. School.','2. Blue.','3. English.']],
+      ['A Happy Family','Lina lives with her mother, father and brother. On Sunday, they eat lunch together. Lina helps her mother set the table.','1. Who lives with Lina?\n2. When do they eat lunch together?\n3. What does Lina do?',['1. Her mother, father and brother.','2. On Sunday.','3. She helps set the table.']]
+    ];
+    let ri=0;
+    while(pages.length<readingLimit){const r=readings[ri%readings.length];add('Reading',r[0],'Read a short passage and answer comprehension questions.',r[1]+'\n\nAnswer in short sentences:\n'+r[2],r[3]);ri++;}
+    while(pages.length<total-2){
+      const words=bankFor(topicList[(pages.length)%topicList.length]);
+      const body='Mixed practice. Choose the correct answer.\n1. Write the first word from this unit: __________\n2. Complete: I have ___ apple. (a / an)\n3. Write the plural of book: __________\n4. Put in order: happy / am / I\n5. Write one sentence using this word: '+words[0][0]+'\n\nChallenge: Draw a picture to match your sentence.';
+      add('Review and challenge','Mixed skills review','Bring vocabulary, grammar and writing together.',body,['1. Answers depend on the selected unit.','2. an','3. books','4. I am happy.','5. Answers will vary; check the target word is used correctly.']);
+    }
+    const answerPage=pages.length+1;
+    if(pages.length<total)add('Answer key','Answer key','Check the closed-answer activities.','The answer key for the numbered activities is listed after all workbook pages. For drawing, speaking and personal writing tasks, answers may vary.');
+    if(pages.length<total)add('Completion','Certificate of achievement','Celebrate learning progress.','This certificate is proudly presented to:\n\n____________________________________\n\nfor completing '+title+'!\n\nDate: ______________  Signature: ______________');
+    const midpoint=Math.ceil(pages.length/2);
+    const lines=['FULL WORKBOOK CONTENT + ANSWER KEY','===================================','',
+      'Product: '+title,'Language: '+language,'Audience: '+audience,'Pages: '+pages.length,'Topics: '+topicList.join(', '),'',
+      'WORKBOOK PAGES',''];
+    pages.forEach((p,i)=>{
+      const level=mixed?(i<midpoint?'Little Learners (ages 6–7)':'Young Explorers (ages 8–10)'):v('level');
+      lines.push('PAGE '+(i+1)+' | '+level+' | '+p.section);
+      lines.push(p.heading);
+      lines.push('Objective: '+p.objective);
+      lines.push(p.body);
+      lines.push('');
+      if(p.answers.length)answerKey.push('Page '+(i+1)+' — '+p.heading+'\n'+p.answers.join('\n'));
+    });
+    lines.push('TEACHER / PARENT ANSWER KEY','============================','');
+    lines.push(answerKey.join('\n\n'));
+    lines.push('','EDITORIAL CHECK BEFORE DESIGN','- This is a starter content draft generated from built-in templates, not a human-reviewed final workbook.');
+    lines.push('- Check that the chosen topic names match the vocabulary and activities.');
+    lines.push('- For Little Learners, consider using larger type, fewer items and picture support.');
+    lines.push('- For Young Explorers, add independent writing and extension questions.');
+    lines.push('- Add original illustrations in Canva; do not use copyrighted character artwork.');
+    lines.push('- Proofread every page and verify the answer key before selling.');
+    return lines.join('\n');
+  }
   function makePlan(){
     const v=id=>document.getElementById(id).value.trim();
     const title=v('title'),type=v('type'),language=v('language'),audience=v('audience'),pages=v('pages'),level=v('level'),goal=v('goal'),style=v('style');
@@ -204,6 +305,13 @@
     copyBtn.disabled=false;downloadBtn.disabled=false;
     status.textContent='Page-by-page workbook outline generated. Review it before writing the lessons.';
   });
+  document.getElementById('detailedBtn').addEventListener('click',()=>{
+    if(!form.reportValidity()) return;
+    currentPlan=makeDetailedWorkbook();
+    preview.textContent=currentPlan;
+    copyBtn.disabled=false;downloadBtn.disabled=false;
+    status.textContent='Full page content and answer key generated. Review and proofread before design.';
+  });
   copyBtn.addEventListener('click',async()=>{
     if(!currentPlan)return;
     try{await navigator.clipboard.writeText(currentPlan);status.textContent='Plan copied to clipboard.'}
@@ -213,7 +321,7 @@
     if(!currentPlan)return;
     const blob=new Blob([currentPlan],{type:'text/plain;charset=utf-8'});
     const url=URL.createObjectURL(blob);const a=document.createElement('a');
-    a.href=url;a.download='product-plan.txt';a.click();URL.revokeObjectURL(url);
+    a.href=url;a.download='workbook-content-and-answer-key.txt';a.click();URL.revokeObjectURL(url);
     status.textContent='Your text file has been prepared.';
   });
   form.addEventListener('reset',()=>{currentPlan='';preview.innerHTML='<div class="empty"><div><div class="symbol">✦</div><strong>Your workspace is ready</strong><br>Complete the form and select “Generate product plan”.</div></div>';copyBtn.disabled=true;downloadBtn.disabled=true;status.textContent=''});
